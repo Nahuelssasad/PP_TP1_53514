@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
-//import java.util.ArrayList;
-
+import java.util.Scanner;
+import java.util.Collections;
 public class EventoUniversitario {
 
     private final String  ID;
@@ -13,7 +13,11 @@ public class EventoUniversitario {
     private List<Actividad> actividades;
 
 
+    static {
+        CantidadEventos = 0;
+        System.out.println("Inicializador estático: se cargó la clase EventoUniversitario.");
 
+    }
     public  EventoUniversitario(String id ,String titulo , double costoBase ,boolean gratuito)
     {
         this.ID=id;
@@ -40,10 +44,16 @@ public class EventoUniversitario {
 
 
     public double calcularCostoEstimado(){
+        double costoTotal=0.0;
         if (gratuito){
-            return 0;
+            return costoTotal;
         }
-        return  costoBase*1.21;
+        for (Actividad actividad : actividades)
+            costoTotal += actividad.calcularCostoMateriales();
+
+
+
+        return  costoTotal*1.21;
     }
 
     public void asignarSala(Sala sala)
@@ -52,12 +62,40 @@ public class EventoUniversitario {
 
 
     }
+    public Sala getSala(){
+        return sala;
+    }
 
-    public void crearActividad(int id,String titulo,int cupo){
+    Scanner scanner = new Scanner(System.in);
+    public void crearActividad(int id,String titulo,int cupo,String tipoActividad){
 
-            Actividad actividad =  new Actividad(id,titulo,cupo);
+            switch (tipoActividad){
 
-            this.actividades.add(actividad); //Sumo una actividad a la lista de actividades
+                case "charla":
+
+                    System.out.println("Ingrese el nombre del disertante: ");
+                    String disertante = scanner.nextLine();
+                    Actividad charla = new Charla(id,titulo,cupo,disertante);
+
+                    this.actividades.add(charla);
+                    break;
+                case "taller":
+
+                    System.out.print("El taller " + titulo + " requiere el uso de Notebook? : S/N  ");
+                    String respuesta = scanner.nextLine().trim().toLowerCase();
+                    boolean requiereNotebook = false;
+                    if (respuesta.equals("s") || respuesta.equals("si") || respuesta.equals("sí")) {
+                        requiereNotebook = true;
+                    }
+                    Actividad taller = new Taller(id,titulo,cupo,requiereNotebook);
+                    this.actividades.add(taller);
+                    break;
+                default:
+                    System.out.println("Error.Tipo de actividad no reconocido");
+
+
+
+            }
 
 
 
@@ -69,23 +107,17 @@ public class EventoUniversitario {
             System.out.println("----------------------------------------------------------------------------");
             System.out.println("Evento Codigo= " + ID);
             System.out.println("Titulo: " + titulo);
-            System.out.println("Costo base : " + this.calcularCostoEstimado());
-            System.out.println("Sala  : " + sala.getNombre());
+            System.out.println("Costo base : " + calcularCostoEstimado());
+            System.out.println("Sala  : " + ( this.sala  != null ? this.sala.getNombre() : "Sin sala") );
             System.out.println("Actividades: ");
-
+            System.out.println("____________");
 
             for ( Actividad actividad : actividades){
 
-                System.out.println("Titulo: " +actividad.getTitulo());
-                System.out.println("Cupo minimo: " + actividad.getCupoMinimo());
-                System.out.println("Cupo máximo: " + actividad.getCupoMaximo());
-                System.out.println("Inscripciones: " + actividad.getTitulo());
-
+                actividad.mostrarIdentificacion();
                 actividad.mostrarInscripciones();
-                System.out.println("");
+
             }
-
-
 
 
             System.out.println("----------------------------------------------------------------------------");
@@ -98,16 +130,7 @@ public class EventoUniversitario {
             return CantidadEventos;
     }
 
-    
 
-
-
-    static {
-        CantidadEventos = 0;
-        System.out.println("Inicializador estático: se cargó la clase EventoUniversitario.");
-
-    }
-   
 
     public String  getTitulo()
     {
@@ -130,10 +153,17 @@ public class EventoUniversitario {
 
 
     public List<Actividad> getActividades(){
-        return  actividades;
+        return  Collections.unmodifiableList(actividades);
     }
 
+    public void mostrarActividades (){
 
+        for ( int i = 0 ; i < getActividades().size();i++){
+
+            System.out.println( (i+1) + actividades.get(i).getTitulo());
+
+        }
+    }
 
 
 

@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
 
-public class Actividad {
+public  abstract  class Actividad {
 
     private  int id;
     private String titulo;
@@ -25,6 +25,7 @@ public class Actividad {
 
     public  Inscripcion InscribirEstudiante(Estudiante estudiante)
     {
+
         Inscripcion inscripcion= new Inscripcion(LocalDate.now(),"Inscripto",this,estudiante);
         this.inscripciones.add(inscripcion);
         this.estudiantes.add(estudiante);
@@ -33,10 +34,22 @@ public class Actividad {
 
     public void mostrarInscripciones(){
 
-        for ( Inscripcion inscripcion:inscripciones)
-        {
-            System.out.println("Estudiante: " + inscripcion.getEstudiante().getNombre() + "Legajo" + inscripcion.getEstudiante().getLegajo()  + " Inscripcion: " +  inscripcion.getFecha());
+        if (inscripciones.isEmpty()) {
+            System.out.println("  Sin inscripciones registradas.");
+            return;
         }
+        System.out.println("   Inscripciones registradas:");
+        for (Inscripcion inscripcion : inscripciones) {
+            System.out.println("   " + inscripcion.getFecha()
+                    +" - "+  inscripcion.getEstado()
+                    + " - " + inscripcion.getEstudiante().getNombre()
+                    + " (Legajo: " + inscripcion.getEstudiante().getLegajo() + ")");
+        }
+    }
+
+    public final void mostrarIdentificacion(){
+
+        System.out.println("- " + getTipo() + ": " + titulo + " (id=" + id + ")" + " - Cupo máximo: " + cupoMaximo);
 
     }
 
@@ -74,7 +87,19 @@ public class Actividad {
 
         return CupoMinimo;
     }
-    
+
+    public int getId()
+    {
+        return id;
+    }
+
+    public void setId(int id){
+        this.id=id;
+    }
+    public abstract double calcularCostoMateriales();
+
+    public abstract String getTipo();
+
 
 
 }
