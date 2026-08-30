@@ -1,7 +1,7 @@
 import java.util.List;
 
 import java.util.ArrayList;
-import java.util.Scanner
+import java.util.Scanner;
 
 public class App {
     public static void main(String[] args){
@@ -23,7 +23,7 @@ public class App {
 
 
 		System.out.println("REGISTRO DE ESTUDIANTES: ");
-        System.out.println("======================");
+        	System.out.println("======================");
 	
 		System.out.println("Cantidad Estudiantes: ");
 	    cantidadEstudiantes = scanner.nextInt();
@@ -32,43 +32,49 @@ public class App {
 	
 		for ( int i = 0 ; i < cantidadEstudiantes ; i++ ) {
 
-	 			System.out.println("Ingese legajo del estudiante: ");
-        		String legajo = scanner.nextLine();
-            	System.out.println("Ingrese nombre y apellido del estudiante: ");
-            	String apenomb = scanner.nextLine();
-				estudiantes.add(new Estudiante(legajo, apenomb));
-
-
+				System.out.println("Estudiante :  " + (i+1) );
+	 			System.out.println("Ingrese legajo del estudiante: ");
+        			String legajo = scanner.nextLine();
+            			System.out.println("Ingrese nombre y apellido del estudiante: ");
+            			String apenomb = scanner.nextLine();
+				estudiantes.add(new Estudiante(apenomb, legajo));
+				System.out.println();
 		}
 
 
 		//Se crean  eventos
+		System.out.println();
 		System.out.println("REGISTRO DE EVENTOS: ");
-		System.out.println("======================");
+		System.out.println("====================== ");
 
-        System.out.println("Cantidad Eventos: ");
+        	System.out.println("Cantidad Eventos: ");
 		cantidadEventos = scanner.nextInt();
-        scanner.nextLine();
+      		scanner.nextLine();
 
 		for ( int i = 0 ; i < cantidadEventos ; i++){
 
 			/* Se requieren datos por consola para construir un evento */
-			System.out.println("Ingese un id para el evento: ");
+			System.out.println("Ingrese un id para el evento: ");
 			String id = scanner.nextLine();
 
-			System.out.println("Ingese un título para el evento: ");
+			System.out.println("Ingrese un título para el evento: ");
 			String titulo = scanner.nextLine();
 
-			System.out.println("Ingese el costo base:  ");
-			double costoBase = scanner.nextDouble();
+			
+			double costoBase=0.0 ;
 			scanner.nextLine(); //limpia el Enter pendiente.
 			System.out.println("El evento tendra costo para los participantes s/n?");
 			String respuesta = scanner.nextLine().trim().toLowerCase();
 
 			boolean esGratuito= true;
 			if (respuesta.equals("s") || respuesta.equals("si") || respuesta.equals("sí")) {
-                	esGratuito= false;
-            	}
+                		
+			
+				esGratuito= false;
+			 	System.out.println("Ingrese el costo base:  ");
+                        	costoBase = scanner.nextDouble();
+				scanner.nextLine();
+            		}
 
 
 
@@ -76,10 +82,10 @@ public class App {
 			EventoUniversitario evento = new EventoUniversitario( "EVT-" + id, titulo, costoBase, esGratuito);
 
 			/* Se crea una sala y se asigna al evento */
-			System.out.println("Ingese el id de la sala : ");
+			System.out.println("Ingrese el id de la sala : ");
 			int idSala= scanner.nextInt();
 			scanner.nextLine();
-			System.out.println("Ingese el nombre de la sala donde se realizará el evento: ");
+			System.out.println("Ingrese el nombre de la sala donde se realizará el evento: ");
 			String nombreSala= scanner.nextLine();
 			Sala sala = new Sala(idSala, nombreSala);
 			evento.asignarSala(sala);
@@ -90,62 +96,63 @@ public class App {
 			System.out.println("\n\nREGISTRO DE ACTIVIDADES PARA EL EVENTO " + evento.getTitulo());
 			System.out.println("================================================================");
 		
-			System.out.println("Cantidad Eventos: ");
+			System.out.println("Cantidad Actividades: ");
 			cantidadActividades = scanner.nextInt();
 
 			scanner.nextLine();
 
 			int idActividades=1;
 
-	    	for ( int j = 0 ; j < cantidadActividades ; j++) {
-	    
-	    		System.out.println("Ingese el título de la actividad: ");
-                String tituloActividad= scanner.nextLine();
-                System.out.println("Ingese el cupo máximo de estudiantes admitidos para la actividad: ");
-                int cupo= scanner.nextInt();
-                scanner.nextLine(); //Se consume la linea.
+	    		for ( int j = 0 ; j < cantidadActividades ; j++) {
+	    			System.out.println("Actividad " + ( j+1) );
+	    			System.out.println("Ingrese el título de la actividad: ");
+                		String tituloActividad= scanner.nextLine();
+               	 		System.out.println("Ingrese el cupo máximo de estudiantes admitidos para la actividad: ");
+                		int cupo= scanner.nextInt();
+                		scanner.nextLine(); //Se consume la linea.
 				System.out.println("Ingrese el tipo de actividad:");
 				String tipoActividad=scanner.nextLine();
-
-                evento.crearActividad(idActividades, tituloActividad, cupo,tipoActividad);
+                		evento.crearActividad(idActividades, tituloActividad, cupo,tipoActividad);
 				idActividades++;
+				System.out.println();
 
-			}
+			}	
+
 			eventos.add(evento);
 
 		}
 
 
-	System.out.println("INSCRIPCIONES");
-	System.out.println("================================================================");
+		System.out.println();
+		System.out.println("INSCRIPCIONES");
+		System.out.println("================================================================");
 
 
 
-	boolean continuar = true;
+		boolean continuar = true;
 
 	
-	while(true){
+		while(continuar){
 
-		//Buscar evento
-		System.out.println("Ingrese el evento a inscribirse");
-		String tituloEvento=scanner.nextLine();
-		EventoUniversitario ingresadoEvento = null;
-		boolean encontrado=false;
-		for ( EventoUniversitario evento:eventos)
-		{
+			//Buscar evento
+			System.out.println("Ingrese el evento a inscribirse");
+			String tituloEvento=scanner.nextLine();
+			EventoUniversitario ingresadoEvento = null;
+			boolean encontrado=false;
+			for ( EventoUniversitario evento:eventos){
 
-			if (tituloEvento.equals(evento.getTitulo()))
-			{
+			if (tituloEvento.equals(evento.getTitulo())){
+				
 				ingresadoEvento=evento;
 				encontrado=true;
 				break;
 			}
 
-		}
-		if (!encontrado){
-			System.out.println("No encontrado")
+			}
+			if (!encontrado){
+			System.out.println("No encontrado");
 			break;
-		}
+			}
 
 		//Inscribir a un estudiantes
 		System.out.println("Ingrese  cantidad estudiantes a inscribir "); //aca se podria verificar el tamaño
@@ -164,7 +171,7 @@ public class App {
 		for ( int i =0 ; i < cantidadEstudiantes;i++){
 
 			System.out.println("Ingrese legajo: ");
-			String legajo = scanner.nextLine();
+			String legajo = scanner.nextLine().trim();
 			Estudiante personaInscribir=null;
 			boolean encontrar=false;
 			for ( Estudiante estudiante : estudiantes)
@@ -185,7 +192,7 @@ public class App {
 
 			ingresadoEvento.mostrarActividades(); //Interfaz  de actividades
 
-			System.out.println("Ingrese la actividad a la que quiere inscribir al estudiante");
+			System.out.println("Ingrese el numero de  la actividad a la  que quiere inscribir al estudiante");
 
 			int  opcion =  scanner.nextInt(); //se podria verificar la opcion
 			scanner.nextLine();
@@ -200,23 +207,15 @@ public class App {
 
 			}
 
-			System.out.println(("Quiere inscribir en otro evento? "));
+			System.out.println(("Quiere inscribir  a  otro evento? "));
 			String respuesta = scanner.nextLine();
-
-			continuar = (respuesta.equals("s") || respuesta.equals("si") || respuesta.equals("sí")) ? true : false;
+                        
+			continuar = (respuesta.equals("n") || respuesta.equals("no") || respuesta.equals("No")) ? false : true;
 		}
 
 
-		System.out.println("Informacion de eventos");
-		System.out.println("================================================================");
 
 
-		//mostrar informacion de eventos
-
-		for ( EventoUniversitario evento : eventos){
-
-			evento.mostrarActividades();
-		}
 
 
 	
@@ -228,7 +227,19 @@ public class App {
 	
 	
 	}
-	
+
+
+		System.out.println();
+		System.out.println("Informacion de eventos");
+                System.out.println("================================================================");
+
+
+		//mostrar informacion de eventos
+
+		for ( EventoUniversitario evento : eventos){
+
+			evento.mostrarDatos();
+		}
 
 
 	}

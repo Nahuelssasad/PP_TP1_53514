@@ -160,7 +160,7 @@ public class EventoUniversitario {
 
         for ( int i = 0 ; i < getActividades().size();i++){
 
-            System.out.println( (i+1) + actividades.get(i).getTitulo());
+            System.out.println( (i+1) + " " +  actividades.get(i).getTitulo());
 
         }
     }

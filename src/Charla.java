@@ -27,6 +27,6 @@ public class Charla  extends Actividad{
 
     @Override
     public String getTipo() {
-        return this.getClass().getSimpleName();;
+        return this.getClass().getSimpleName();
     }
 }
